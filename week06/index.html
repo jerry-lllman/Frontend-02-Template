@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="c1" id="cc">
+    <div class="class" id="id"></div>
+  </div>
+</body>
+<script>
+function match(selector, element) {
+  if (!selector || !element.attributes) {
+    return false
+  }
+  // 分割父子集，翻转从子元素开始往上匹配
+  let selectorList = selector.split(' ').reverse()
+  // 获取匹配的选择器
+  let select = selectorList[0].match(/(#|.)?[\w]+/g)
+  // 如果存在父子关系，则递归
+  if (select.length > 1) {
+    for(let i = 0; i < select.length; i++) {
+      if (!match(select[i], element)) {
+        return false
+      }
+    }
+    return true
+  }
+  if (selector.charAt(0) === '#') {
+    // 匹配元素是否为 id
+    const attribute = element.attributes['id'].name === 'id'
+    // 匹配 id 成功进行匹配 id 名称
+    return attribute && element.attributes['id'].value === selector.replace('#', '')
+  } else if (selector.charAt(0) === '.') {
+    // 同上
+    const attribute = element.attributes['class'].name === 'class'
+    if (attribute) {
+      return element.attributes['class'].value === selector.replace('.', '')
+    }
+  } else {
+    return element.tagName === selector
+  }
+  return false
+}
+
+console.log(match("div#cc.c1 #id.class", document.getElementById("id")))
+
+</script>
+</html>
