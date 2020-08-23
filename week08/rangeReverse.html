@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="container">
+    <p>1</p>
+    <p>2</p>
+    <p>3</p>
+    <p>4</p>
+    <p>5</p>
+  </div>
+</body>
+<script>
+  // 将一个列表内的子元素进行 reverse 操作
+  let element = document.getElementById('container')
+  const reverseChildren = (element) => {
+    let range = new Range()
+    // 选取
+    range.selectNodeContents(element)
+    // 摘取
+    let fragment = range.extractContents()
+    let l = fragment.childNodes.length
+    while(l-- > 0) {
+      // fragment 已经离开了 DOM 树，所以不会引起重排
+      fragment.appendChild(fragment.childNodes[l])
+    }
+    element.appendChild(fragment)
+  }
+  // 整个过程只有两次重排
+  reverseChildren(element)
+</script>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      a::before {
+        color: red;
+        content: 'Hello';
+      }
+    </style>
+    <link rel="stylesheet" href="data:text/css,p%7Bcolor:blue%7D">
+  </head>
+  <body>
+    <a>World</a>
+  </body>
+  <script>
+    document.styleSheets[0].cssRules[0].style.color = 'lightgreen'
+    let element = document.querySelector('a')
+    let styleA = getComputedStyle(element)
+    console.log(styleA, 'a')
+    let pseudoA = getComputedStyle(element, '::before')
+    console.log(pseudoA, 'a.before')
+  </script>
+</html>
